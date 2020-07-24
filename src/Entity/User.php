@@ -11,8 +11,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
- *      normalizationContext={"groups"={"user:read"}},
- *      denormalizationContext={"groups"={"user:write"}}
+ * normalizationContext={"groups"={"user:read"}},
+ *  attributes={
+ *       "pagination_items_per_page"=4,
+ *       "security"="is_granted('ROLE_ADMIN')",
+ *       "security_message"="Vous n'avez pas access à cette Ressource"
+* },
+ * collectionOperations={
+ *    "get","post",
+ *   "get_role_admin"={
+ *        "method"="GET","POST",
+ *        "path"="/admin/users",
+*    }
+ 
+ *  }
  * )
  */
 class User implements UserInterface
@@ -33,10 +45,8 @@ class User implements UserInterface
      */
     private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles;
+
+    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -51,23 +61,32 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:read"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:read"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:read"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:read"})
      */
     private $adress;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Profil::class, inversedBy="users")
+     */
+    private $profil;
 
     public function getId(): ?int
     {
@@ -103,7 +122,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_'.$this->profil->getLibelle();
 
         return array_unique($roles);
     }
@@ -198,6 +217,18 @@ class User implements UserInterface
     public function setAdress(string $adress): self
     {
         $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getProfil(): ?Profil
+    {
+        return $this->profil;
+    }
+
+    public function setProfil(?Profil $profil): self
+    {
+        $this->profil = $profil;
 
         return $this;
     }

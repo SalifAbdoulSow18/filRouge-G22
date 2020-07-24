@@ -2,8 +2,9 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
 use Faker\Factory;
+use App\Entity\User;
+use App\Entity\Profil;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -19,58 +20,32 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $tab = ['admin', 'formateur', 'apprenant'];
-        $tabRoles = ['ROLE_ADMIN', 'ROLE_FORMATEUR', 'ROLE_APPRENANT'];
-
-        $tabUser = [
-            [
-                "firstname"=>"admin",
-                "lastname"=>"admin",
-                "username"=>"admin",
-                "email"=>"admin@gmail.com",
-                "password"=>"admin",
-                "phone"=>"+221771231212",
-                "adress"=>"Grand Dakar"
-            ],
-            [
-                "firstname"=>"formateur",
-                "lastname"=>"formateur",
-                "username"=>"formateur",
-                "email"=>"formateur@gmail.com",
-                "password"=>"formateur",
-                "phone"=>"+221773212121",
-                "adress"=>"Dieuppeul"
-            ],
-            [
-                "firstname"=>"apprenant",
-                "lastname"=>"apprenant",
-                "username"=>"apprenant",
-                "email"=>"apprenant@gmail.com",
-                "password"=>"apprenant",
-                "phone"=>"+221771433434",
-                "adress"=>"Mbao"
-            ]
-        ];
-
-        for($i = 0; $i<count($tab); $i++) {
-
-            $user = new User();
-            $hash = $this->encoder->encodePassword($user,$tabUser[$i]["password"]);
-            $role = [$tabRoles[$i]];
-
-            $user->setEmail($tabUser[$i]["email"])
-                 ->setFirstname($tabUser[$i]["firstname"])
-                 ->setUsername($tabUser[$i]["username"])
-                 ->setRoles($role)
-                 ->setLastname($tabUser[$i]["lastname"])
-                 ->setPhone($tabUser[$i]["phone"])
-                 ->setAdress($tabUser[$i]["adress"])
-                 ->setPassword($hash);
+        $faker = Factory::create('fr_FR');
+        $profils =["ADMIN","FORMATEUR" ,"APPRENANT" ,"CM"];
+        foreach ($profils as $key => $libelle) {
+            $profil =new Profil() ;
+            $profil ->setLibelle ($libelle );
+            $manager ->persist($profil);
+            $manager ->flush();
+                $user = new User();
+                $user ->setProfil ($profil);
+                $user ->setEmail (strtolower ($libelle));
+                $user ->setFirstname($faker->name());
+                $user ->setLastname($faker->name);
+                $user ->setPhone($faker->phoneNumber);
+                $user->setUsername($faker->userName);
+                $user->setAdress($faker->address);
+                //Génération des Users
+                $password = $this->encoder->encodePassword ($user, 'pass_1234' );
+                $user ->setPassword ($password );
 
             $manager->persist($user);
 
-        }
+       
+        
+    }
 
         $manager->flush();
     }
 }
+
