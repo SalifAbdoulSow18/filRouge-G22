@@ -12,24 +12,19 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource( 
  * normalizationContext={"groups"={"user:read"}},
+ *  attributes={
+ *       "security"="is_granted('ROLE_ADMIN')",
+ *       "security_message"="Vous n'avez pas access à cette Ressource"
+* },
  * collectionOperations={
- *  "get_apprenants"={
-*       "method"="GET",
-*       "path"="/apprenants",
-*       "normalization_context"={"groups":"apprenant:read"},
-*       "access_control"="(is_granted('ROLE_ADMIN') or is_granted('ROLE_FORMATEUR') or is_granted('ROLE_CM'))",
-*       "access_control_message"="Vous n'avez pas access à cette Ressource",
-*       "route_name"="apprenant_liste",
-*
-*    },
- *    "get","post",
+ *    "post",
  *   "get_role_admin"={
  *        "method"="GET",
  *        "path"="/admin/users",
 *    }
 *},
 *   itemOperations={
-*   "put",
+*   "put","delete",
 *
 *   "get_role_one_user"={
  *        "method"="GET",
@@ -46,7 +41,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * 
-     * @Groups("user:read")
+     * @Groups({"user:read"})
      */
     private $id;
 
