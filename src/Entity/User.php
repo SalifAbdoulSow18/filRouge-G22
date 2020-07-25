@@ -10,21 +10,33 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource(
+ * @ApiResource( 
  * normalizationContext={"groups"={"user:read"}},
- *  attributes={
- *       "pagination_items_per_page"=4,
- *       "security"="is_granted('ROLE_ADMIN')",
- *       "security_message"="Vous n'avez pas access à cette Ressource"
-* },
  * collectionOperations={
+ *  "get_apprenants"={
+*       "method"="GET",
+*       "path"="/apprenants",
+*       "normalization_context"={"groups":"apprenant:read"},
+*       "access_control"="(is_granted('ROLE_ADMIN') or is_granted('ROLE_FORMATEUR') or is_granted('ROLE_CM'))",
+*       "access_control_message"="Vous n'avez pas access à cette Ressource",
+*       "route_name"="apprenant_liste",
+*
+*    },
  *    "get","post",
  *   "get_role_admin"={
- *        "method"="GET","POST",
+ *        "method"="GET",
  *        "path"="/admin/users",
 *    }
- 
- *  }
+*},
+*   itemOperations={
+*   "put",
+*
+*   "get_role_one_user"={
+ *        "method"="GET",
+ *        "path"="/admin/users/{id}"
+*    }
+*   
+*   },
  * )
  */
 class User implements UserInterface
@@ -41,7 +53,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * 
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read"})
      */
     private $email;
 
