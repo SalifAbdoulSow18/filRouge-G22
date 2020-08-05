@@ -29,7 +29,7 @@ class UserFixtures extends Fixture
             $manager ->flush();
                 $user = new User();
                 $user ->setProfil ($profil);
-                $user ->setEmail (strtolower ($libelle));
+                $user ->setEmail ($faker->email);
                 $user ->setFirstname($faker->name());
                 $user ->setLastname($faker->name);
                 $user ->setPhone($faker->phoneNumber);

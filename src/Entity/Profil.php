@@ -3,13 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
 use App\Repository\ProfilRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
  * @ApiResource(
@@ -19,13 +20,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *       "security_message"="Vous n'avez pas access à cette Ressource"
 * },
  * collectionOperations={
- *    "get","post",
- *   "get_role_admin"={
- *        "method"="GET","POST",
- *        "path"="/admin/profils",
-*    }
- 
- *  }
+ *   "get"={"path"="/admin/profils"},
+*    "post"={"path"="/admin/profils"}
+*},
+*   itemOperations={
+*   "get"={"path"="/admin/profils/{id}"},
+*   "put"={"path"="/admin/profils/{id}"},
+*   "delete"={"path"="/admin/profils/{id}"}
+*}
+ *  
  * )
  */
 class Profil
@@ -41,12 +44,13 @@ class Profil
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"profil:read"})
+     * @Assert\NotBlank( message="this field cannot be empty !!!" )
      */
     private $libelle;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="profil")
-     * 
+     * @ApiSubresource
      */
     private $users;
 

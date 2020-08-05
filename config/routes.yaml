@@ -8,7 +8,7 @@ showFormateur:
 showFormateurById:
     path: /api/formateurs/{id}
     controller: App\Controller\UserController::showFormateurById
-    methods: ['GET']
+    methods: ['GET','PUT']
 
 showApprenant:
     path: /api/apprenants
@@ -18,8 +18,7 @@ showApprenant:
 showApprenantById:
     path: /api/apprenants/{id}
     controller: App\Controller\UserController::showApprenantById
-    methods: ['GET']
-    
+    methods: ['GET','PUT']   
 
 # config/routes.yaml
 authentication_token:

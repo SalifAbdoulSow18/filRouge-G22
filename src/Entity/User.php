@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type" , type="string")
+ * @ORM\DiscriminatorMap({"admin"="Admin","apprenant"="Apprenant", "cm"="CM" , "formateur"="Formateur" ,"user"="User"})
  * @ApiResource( 
  * normalizationContext={"groups"={"user:read"}},
  *  attributes={
@@ -17,21 +20,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *       "security_message"="Vous n'avez pas access à cette Ressource"
 * },
  * collectionOperations={
- *    "post",
- *   "get_role_admin"={
- *        "method"="GET",
- *        "path"="/admin/users",
-*    }
+ *   "get"={"path"="/admin/users"},
+*    "post"={"path"="/admin/users"}
 *},
 *   itemOperations={
-*   "put","delete",
-*
-*   "get_role_one_user"={
- *        "method"="GET",
- *        "path"="/admin/users/{id}"
-*    }
-*   
-*   },
+*   "get"={"path"="/admin/users/{id}"},
+*   "put"={"path"="/admin/users/{id}"},
+*   "delete"={"path"="/admin/users/{id}"}
+*}
  * )
  */
 class User implements UserInterface
