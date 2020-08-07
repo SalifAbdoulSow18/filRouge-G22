@@ -1,4 +1,9 @@
 
+# config/routes.yaml
+authentication_token:
+    path: /api/login
+    methods: ['POST']
+
 showFormateur:
     path: /api/formateurs
     controller: App\Controller\UserController::showFormateur
@@ -20,8 +25,4 @@ showApprenantById:
     controller: App\Controller\UserController::showApprenantById
     methods: ['GET']
     
-
-# config/routes.yaml
-authentication_token:
-    path: /api/login
-    methods: ['POST']
+ 

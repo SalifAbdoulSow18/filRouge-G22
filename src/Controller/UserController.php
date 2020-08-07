@@ -11,6 +11,7 @@ use ApiPlatform\Core\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserController extends AbstractController
 {
@@ -79,26 +80,32 @@ class UserController extends AbstractController
         return $this->json($formateurs,Response::HTTP_OK,);
     }
     else{
-        return $this->json("Access denied!!!");
-    }
+        return $this->json("Access denied!!!");              
+        }
     }
 
+    public $tokenStorage;
+ 
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
 
     //Seuls Les Formateurs/CM Peuvent Lister un Formateur Par Son ID!!!
     public function showFormateurById(UserRepository $repo, $id)
     {
+        $token = $this->getUser()->getId() ;
+       
+        dd($token) ;
+       
         if ($this->isGranted('ROLE_FORMATEUR') || $this->isGranted('ROLE_CM') ) {
             $formateurs= $repo->findByProfilById("FORMATEUR",$id);
             return $this->json($formateurs,Response::HTTP_OK,);
         }
         else{
-            return $this->json("Access denied!!!");
+            return $this->json("Access denied!!!1");
         }
         
     }
-
-
-   
-
     
 }
