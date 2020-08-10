@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\NiveauRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\NiveauRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=NiveauRepository::class)
@@ -16,23 +17,18 @@ class Niveau
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"niveau:read"})
      */
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Niveau::class, inversedBy="niveaux")
+     * @ORM\ManyToMany(targetEntity=Competence::class, inversedBy="niveaux")
      */
-    private $competence_niveau;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Niveau::class, mappedBy="competence_niveau")
-     */
-    private $niveaux;
+    private $competence;
 
     public function __construct()
     {
-        $this->competence_niveau = new ArrayCollection();
-        $this->niveaux = new ArrayCollection();
+        $this->competence = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -41,54 +37,26 @@ class Niveau
     }
 
     /**
-     * @return Collection|self[]
+     * @return Collection|Competence[]
      */
-    public function getCompetenceNiveau(): Collection
+    public function getCompetence(): Collection
     {
-        return $this->competence_niveau;
+        return $this->competence;
     }
 
-    public function addCompetenceNiveau(self $competenceNiveau): self
+    public function addCompetence(Competence $competence): self
     {
-        if (!$this->competence_niveau->contains($competenceNiveau)) {
-            $this->competence_niveau[] = $competenceNiveau;
+        if (!$this->competence->contains($competence)) {
+            $this->competence[] = $competence;
         }
 
         return $this;
     }
 
-    public function removeCompetenceNiveau(self $competenceNiveau): self
+    public function removeCompetence(Competence $competence): self
     {
-        if ($this->competence_niveau->contains($competenceNiveau)) {
-            $this->competence_niveau->removeElement($competenceNiveau);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|self[]
-     */
-    public function getNiveaux(): Collection
-    {
-        return $this->niveaux;
-    }
-
-    public function addNiveau(self $niveau): self
-    {
-        if (!$this->niveaux->contains($niveau)) {
-            $this->niveaux[] = $niveau;
-            $niveau->addCompetenceNiveau($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNiveau(self $niveau): self
-    {
-        if ($this->niveaux->contains($niveau)) {
-            $this->niveaux->removeElement($niveau);
-            $niveau->removeCompetenceNiveau($this);
+        if ($this->competence->contains($competence)) {
+            $this->competence->removeElement($competence);
         }
 
         return $this;
