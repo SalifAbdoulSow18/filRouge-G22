@@ -2,13 +2,50 @@
 
 namespace App\Entity;
 
-use App\Repository\PromoRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PromoRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PromoRepository::class)
+ * @ApiResource(   
+ *      attributes={
+ *          "security"="is_granted('ROLE_ADMIN') || is_granted('ROLE_FORMATEUR') || is_granted('ROLE_CM')",
+ *          "security_message"="Vous n'avez pas access à cette Ressource"
+ *          },
+ *      collectionOperations={
+ *          "ref_form_gpe"={
+ *              "path"="/admin/promo",
+ *              "normalization_context"={"groups"={"reforgpe"}},
+ *              "method"="GET"
+ *          },
+ *          "post"={
+ *              "path"="/admin/promo",
+ *              "security"="is_granted('ROLE_ADMIN') || is_granted('ROLE_FORMATEUR')",
+ *              "security_message"="Vous n'avez pas access à cette Ressource"
+ *          }
+ *      },
+ *      itemOperations={
+ *          "ref_form_gpe_id"={
+ *              "path"="/admin/promo/{id}/referentiels",
+ *              "normalization_context"={"groups"={"reprogpecompcomp"}},
+ *              "method"="GET"
+ *          },
+ *          "ref_prom_gpecom_comp_id"={
+ *              "path"="/admin/promo/{id}",
+ *              "normalization_context"={"groups"={"reforgpe"}},
+ *              "method"="GET"
+ *          },
+ *          "put"={
+ *              "path"="/admin/promo/{id}",
+ *              "security"="is_granted('ROLE_ADMIN') || is_granted('ROLE_FORMATEUR')",
+ *              "security_message"="Vous n'avez pas access à cette Ressource"
+ *          },
+ *      }
+ * )
  */
 class Promo
 {
@@ -20,27 +57,44 @@ class Promo
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"reprogpecompcomp"})
      */
-    private $date;
+    private $libelle;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="date")
+     * @Groups({"reprogpecompcomp"})
      */
-    private $nomPromo;
+    private $annee;
+
+    /**
+     * @ORM\Column(type="date")
+     * @Groups({"reprogpecompcomp"})
+     */
+    private $dateDebut;
+
+    /**
+     * @ORM\Column(type="date")
+     * @Groups({"reprogpecompcomp"})
+     */
+    private $dateFin;
 
     /**
      * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="promo")
+     * @Groups({"reforgpe"})
      */
     private $formateurs;
 
     /**
      * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="promo")
+     * @Groups({"reforgpe"})
      */
     private $groupe;
 
     /**
      * @ORM\ManyToMany(targetEntity=Referentiel::class, mappedBy="promo")
+     * @Groups({"reforgpe","reprogpecompcomp"})
      */
     private $referentiels;
 
@@ -54,30 +108,6 @@ class Promo
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getNomPromo(): ?string
-    {
-        return $this->nomPromo;
-    }
-
-    public function setNomPromo(string $nomPromo): self
-    {
-        $this->nomPromo = $nomPromo;
-
-        return $this;
     }
 
     /**
@@ -163,6 +193,54 @@ class Promo
             $this->referentiels->removeElement($referentiel);
             $referentiel->removePromo($this);
         }
+
+        return $this;
+    }
+
+    public function getLibelle(): ?string
+    {
+        return $this->libelle;
+    }
+
+    public function setLibelle(string $libelle): self
+    {
+        $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    public function getAnnee(): ?\DateTimeInterface
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(\DateTimeInterface $annee): self
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getDateDebut(): ?\DateTimeInterface
+    {
+        return $this->dateDebut;
+    }
+
+    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    {
+        $this->dateDebut = $dateDebut;
+
+        return $this;
+    }
+
+    public function getDateFin(): ?\DateTimeInterface
+    {
+        return $this->dateFin;
+    }
+
+    public function setDateFin(\DateTimeInterface $dateFin): self
+    {
+        $this->dateFin = $dateFin;
 
         return $this;
     }

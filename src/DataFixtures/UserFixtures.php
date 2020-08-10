@@ -35,16 +35,14 @@ class UserFixtures extends Fixture
                 $user ->setPhone($faker->phoneNumber);
                 $user->setUsername($faker->userName);
                 $user->setAdress($faker->address);
+
                 //Génération des Users
                 $password = $this->encoder->encodePassword ($user, 'pass_1234' );
                 $user ->setPassword ($password );
 
             $manager->persist($user);
 
-       
-        
     }
-
         $manager->flush();
     }
 }

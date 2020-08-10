@@ -2,13 +2,44 @@
 
 namespace App\Entity;
 
-use App\Repository\CompetenceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CompetenceRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CompetenceRepository::class)
+ * @ApiResource(
+ * attributes={
+ *          "security"="is_granted('ROLE_ADMIN')||is_granted('ROLE_FORMATEUR')||is_granted('ROLE_CM')",
+ *          "security_message"="Vous n'avez pas access à cette Ressource"
+ *     },
+ *     collectionOperations={
+ *          "Competence_and_niveau"={
+ *              "path"="/admin/competences",
+ *              "method"="GET",
+ *              "normalization_context"={"groups"={"niveau:read"}}
+ *          },
+ *          "post"={
+ *              "path"="/admin/competences",
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas access à cette Ressource"
+ *          }
+ *      },
+ *      itemOperations={
+ *          "get"={
+ *              "path"="/admin/competences/{id}",
+ *              "normalization_context"={"groups"={"niveau:read"}}
+ *          },
+ *          "put"={
+ *              "path"="/admin/competences/{id}",
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas access à cette Ressource"
+ *          }
+ * }
+ * )
  */
 class Competence
 {
@@ -16,21 +47,24 @@ class Competence
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"modou:read","japonais:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"modou:read","japonais:read"})
      */
     private $nomCompetence;
 
     /**
-     * @ORM\ManyToMany(targetEntity=GrpeCompetence::class, inversedBy="competences")
+     * @ORM\ManyToMany(targetEntity=GrpeCompetence::class, inversedBy="competences", cascade={"persist"})
      */
     private $grpeCompetence;
 
     /**
      * @ORM\ManyToMany(targetEntity=Niveau::class, mappedBy="competence")
+     * @Groups({"niveau:read"})
      */
     private $niveaux;
 

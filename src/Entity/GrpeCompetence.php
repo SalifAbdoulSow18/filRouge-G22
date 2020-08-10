@@ -2,13 +2,48 @@
 
 namespace App\Entity;
 
-use App\Repository\GrpeCompetenceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\GrpeCompetenceRepository;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GrpeCompetenceRepository::class)
+ * @ApiResource(  
+ * collectionOperations={ 
+ *   "grt"={ 
+ *      "method"="GET" ,
+ *        "path"="/admin/grpecompetences/competences" ,
+ *        "normalization_context"={"groups"={"modou:read"}} ,
+ *        "security"="is_granted('ROLE_ADMIN')",
+ *        "security_message"="Vous n'avez pas access à cette Ressource"
+ *    } ,
+ *    "grp"={
+ *              "method"="GET",
+ *        "path"="/admin/grpecompetences" ,
+ *           "security"="is_granted('ROLE_ADMIN')",
+ *       "security_message"="Vous n'avez pas access à cette Ressource"
+ *} ,
+ *    "grp_post"={
+ *              "method"="POST" ,
+ *        "path"="/admin/grpecompetences" ,
+ *           "security"="is_granted('ROLE_ADMIN')",
+ *       "security_message"="Vous n'avez pas access à cette Ressource"
+ *}
+ *}, 
+ *itemOperations={
+ *           "geCompetence_by_id"={"path"="/admin/grpecompetences/{id}","method"="GET"},
+ *           "geCompetence_and_competence"={
+ *              "path"="/admin/grpecompetences/{id}",
+ *              "method"="GET",
+ *              "normalization_context"={"groups"={"japonais:read"}}
+ *           }
+*}
+ * )
  */
 class GrpeCompetence
 {
@@ -16,16 +51,20 @@ class GrpeCompetence
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"modou:read","japonais:read","gpecompcomp:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups({"modou:read","japonais:read"})
      */
     private $libelle;
 
     /**
      * @ORM\ManyToMany(targetEntity=Competence::class, mappedBy="grpeCompetence")
+     * @ApiSubresource
+     * @Groups({"modou:read","japonais:read","gpecompcomp:read","reprogpecompcomp"})
      */
     private $competences;
 

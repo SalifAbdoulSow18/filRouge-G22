@@ -2,13 +2,47 @@
 
 namespace App\Entity;
 
-use App\Repository\ReferentielRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ReferentielRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ReferentielRepository::class)
+ * @ApiResource(
+ *      attributes={
+ *          "security"="is_granted('ROLE_ADMIN')||is_granted('ROLE_FORMATEUR')||is_granted('ROLE_CM')",
+ *          "security_message"="Vous n'avez pas access à cette Ressource"
+ *      },
+ *      collectionOperations={
+ *          "ref_gpecomp"={
+ *              "path"="/admin/referentiels",
+ *              "normalization_context"={"groups"={"refgpecomp:read"}},
+ *              "method"="GET"
+ *          },
+ *          "gpecomp_comp"={
+ *              "path"="/admin/referentiels/grpecompetences",
+ *              "normalization_context"={"groups"={"gpecompcomp:read"}},
+ *              "method"="GET"
+ *          },
+ *          "post"={"path"="/admin/referentiels"}
+ *      },
+ *      itemOperations={
+ *          "ref_gpecomp_id"={
+ *              "path"="/admin/referentiels/{id}",
+ *              "normalization_context"={"groups"={"refgpecomp:read"}},
+ *              "method"="GET"
+ *          },
+ *          "gpecomp_comp_id"={
+ *              "path"="/admin/referentiels/grpecompetences/{id}",
+ *              "normalization_context"={"groups"={"gpecompcomp:read"}},
+ *              "method"="GET"
+ *          },
+ *          "put"={"path"="/admin/referentiels/{id}"}
+ *      }
+ * )
  */
 class Referentiel
 {
@@ -16,6 +50,7 @@ class Referentiel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"refgpecomp:read"})
      */
     private $id;
 
@@ -26,6 +61,7 @@ class Referentiel
 
     /**
      * @ORM\ManyToMany(targetEntity=GrpeCompetence::class, inversedBy="referentiels")
+     * @Groups({"refgpecomp:read","gpecompcomp:read","reprogpecompcomp"})
      */
     private $grpeCompetence;
 

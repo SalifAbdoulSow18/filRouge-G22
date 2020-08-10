@@ -4,12 +4,23 @@ namespace App\Entity;
 
 use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
 use App\Repository\ApprenantRepository;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=ApprenantRepository::class)
+ * @ApiResource(
+ * attributes={
+ *       "security"="is_granted('ROLE_ADMIN')",
+ *       "security_message"="Vous n'avez pas access à cette Ressource"
+* },
+ * collectionOperations={
+*    "post"={"path"="/apprenants"}
+*}
+ * )
  */
 class Apprenant extends User
 {
