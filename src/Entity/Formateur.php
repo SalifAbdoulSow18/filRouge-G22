@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FormateurRepository;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=FormateurRepository::class)
@@ -21,19 +21,19 @@ class Formateur extends User
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Promo::class, inversedBy="formateurs")
+     * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="groupe_formateur")
      */
-    private $promo;
+    private $groupes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Groupe::class, inversedBy="formateurs")
+     * @ORM\ManyToMany(targetEntity=Promotion::class, mappedBy="formateur_promo")
      */
-    private $groupe;
+    private $promotions;
 
     public function __construct()
     {
-        $this->promo = new ArrayCollection();
-        $this->groupe = new ArrayCollection();
+        $this->groupes = new ArrayCollection();
+        $this->promotions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -42,43 +42,18 @@ class Formateur extends User
     }
 
     /**
-     * @return Collection|Promo[]
-     */
-    public function getPromo(): Collection
-    {
-        return $this->promo;
-    }
-
-    public function addPromo(Promo $promo): self
-    {
-        if (!$this->promo->contains($promo)) {
-            $this->promo[] = $promo;
-        }
-
-        return $this;
-    }
-
-    public function removePromo(Promo $promo): self
-    {
-        if ($this->promo->contains($promo)) {
-            $this->promo->removeElement($promo);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Groupe[]
      */
-    public function getGroupe(): Collection
+    public function getGroupes(): Collection
     {
-        return $this->groupe;
+        return $this->groupes;
     }
 
     public function addGroupe(Groupe $groupe): self
     {
-        if (!$this->groupe->contains($groupe)) {
-            $this->groupe[] = $groupe;
+        if (!$this->groupes->contains($groupe)) {
+            $this->groupes[] = $groupe;
+            $groupe->setGroupeFormateur($this);
         }
 
         return $this;
@@ -86,8 +61,40 @@ class Formateur extends User
 
     public function removeGroupe(Groupe $groupe): self
     {
-        if ($this->groupe->contains($groupe)) {
-            $this->groupe->removeElement($groupe);
+        if ($this->groupes->contains($groupe)) {
+            $this->groupes->removeElement($groupe);
+            // set the owning side to null (unless already changed)
+            if ($groupe->getGroupeFormateur() === $this) {
+                $groupe->setGroupeFormateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Promotion[]
+     */
+    public function getPromotions(): Collection
+    {
+        return $this->promotions;
+    }
+
+    public function addPromotion(Promotion $promotion): self
+    {
+        if (!$this->promotions->contains($promotion)) {
+            $this->promotions[] = $promotion;
+            $promotion->addFormateurPromo($this);
+        }
+
+        return $this;
+    }
+
+    public function removePromotion(Promotion $promotion): self
+    {
+        if ($this->promotions->contains($promotion)) {
+            $this->promotions->removeElement($promotion);
+            $promotion->removeFormateurPromo($this);
         }
 
         return $this;

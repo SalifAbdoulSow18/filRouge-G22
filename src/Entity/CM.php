@@ -3,15 +3,13 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use App\Repository\CMRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\AdminRepository;
-use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
- * @ApiResource()
- * @ORM\Entity(repositoryClass=AdminRepository::class)
+ * @ORM\Entity(repositoryClass=CMRepository::class)
  */
-class Admin extends User 
+class CM extends User
 {
     /**
      * @ORM\Id()

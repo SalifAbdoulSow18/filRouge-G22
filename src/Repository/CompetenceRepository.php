@@ -36,15 +36,27 @@ class CompetenceRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Competence
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+
+    // public function findByCompetence($value)   
+    // {
+
+    //     return $this->createQueryBuilder('u')
+    //                 ->innerJoin('u.nomCompetence', 'p')
+    //                 ->andWhere('p.nomCompetence= :val')
+    //                 ->setParameter('val', $value)
+    //                 ->orderBy('u.id', 'ASC')
+    //                 ->getQuery()
+    //                 ->getResult();
+    // }
+   
+    // public function findOneBySomeField($value): ?Competence
+    // {
+    //     return $this->createQueryBuilder('c')
+    //         ->andWhere('c.exampleField = :val')
+    //         ->setParameter('val', $value)
+    //         ->getQuery()
+    //         ->getOneOrNullResult()
+    //     ;
+    // }
+  
 }

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserController extends AbstractController
 {
@@ -99,35 +99,33 @@ class UserController extends AbstractController
         return $this->json($formateurs,Response::HTTP_OK,);
     }
     else{
-        return $this->json("Access denied!!!");
-    }
+        return $this->json("Access denied!!!");              
+        }
     }
 
+    public $tokenStorage;
+ 
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
 
     //Seuls Les /Admin/Formateurs/CM Peuvent Lister un Formateur Par Son ID!!!
     public function showFormateurById(UserRepository $repo, $id)
     {
-        if ( $this->isGranted('ROLE_FORMATEUR') ) {
-            $idFormateur = $this->getUser()->getId();
-            $formateur = $repo->findByProfilById("FORMATEUR", $id);
-
-            if ( $idFormateur == $id ) {
-                return $this->json($formateur, Response::HTTP_OK,);
-            }else {
-                return $this->json("Vous n'avez pas acces à ce profil, désolé !!!");
-            }
-        }elseif( $this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_CM') ) {
-            $formateur = $repo->findByProfilById("FORMATEUR", $id);
-            return $this->json($formateur, Response::HTTP_OK,);
-        }else {
-            return $this->json("Acces non autorisé !!!");
+        $token = $this->getUser()->getId() ;
+       
+        dd($token) ;
+       
+        if ($this->isGranted('ROLE_FORMATEUR') || $this->isGranted('ROLE_CM') ) {
+            $formateurs= $repo->findByProfilById("FORMATEUR",$id);
+            return $this->json($formateurs,Response::HTTP_OK,);
+        }
+        else{
+            return $this->json("Access denied!!!1");
         }
 
         
     }
-
-
-   
-
     
 }

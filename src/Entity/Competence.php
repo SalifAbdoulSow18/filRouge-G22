@@ -4,41 +4,21 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CompetenceRepository;
-use Doctrine\Common\Collections\Collection;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource; 
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\GpeRepository;
 
 /**
  * @ORM\Entity(repositoryClass=CompetenceRepository::class)
- * @ApiResource(
- * attributes={
- *          "security"="is_granted('ROLE_ADMIN')||is_granted('ROLE_FORMATEUR')||is_granted('ROLE_CM')",
+ * @ApiResource(   
+ *      attributes={
+ *          "security"="is_granted('ROLE_ADMIN')",
  *          "security_message"="Vous n'avez pas access à cette Ressource"
- *     },
- *     collectionOperations={
- *          "Competence_and_niveau"={
- *              "path"="/admin/competences",
- *              "method"="GET",
- *              "normalization_context"={"groups"={"niveau:read"}}
  *          },
- *          "post"={
- *              "path"="/admin/competences",
- *              "security"="is_granted('ROLE_ADMIN')",
- *              "security_message"="Vous n'avez pas access à cette Ressource"
- *          }
- *      },
- *      itemOperations={
- *          "get"={
- *              "path"="/admin/competences/{id}",
- *              "normalization_context"={"groups"={"niveau:read"}}
- *          },
- *          "put"={
- *              "path"="/admin/competences/{id}",
- *              "security"="is_granted('ROLE_ADMIN')",
- *              "security_message"="Vous n'avez pas access à cette Ressource"
- *          }
- * }
+ *       collectionOperations={
+ *          "get"={"path"="/admin/grpecompetence/competences"} 
+ * 
+*      } 
  * )
  */
 class Competence
@@ -46,33 +26,21 @@ class Competence
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     * @Groups({"modou:read","japonais:read"})
+     * @ORM\Column(type="integer") 
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"modou:read","japonais:read"})
+      * @Groups({"competence:read"})
      */
     private $nomCompetence;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=GrpeCompetence::class, inversedBy="competences", cascade={"persist"})
+    /** 
+     * @ORM\ManyToOne(targetEntity=GpeCompetence::class, inversedBy="competences")  
+     *   @Groups({"competence:read"})
      */
-    private $grpeCompetence;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Niveau::class, mappedBy="competence")
-     * @Groups({"niveau:read"})
-     */
-    private $niveaux;
-
-    public function __construct()
-    {
-        $this->grpeCompetence = new ArrayCollection();
-        $this->niveaux = new ArrayCollection();
-    }
+    private $gpeCompetence;
 
     public function getId(): ?int
     {
@@ -91,56 +59,14 @@ class Competence
         return $this;
     }
 
-    /**
-     * @return Collection|GrpeCompetence[]
-     */
-    public function getGrpeCompetence(): Collection
+    public function getGpeCompetence(): ?GpeCompetence
     {
-        return $this->grpeCompetence;
+        return $this->gpeCompetence;
     }
 
-    public function addGrpeCompetence(GrpeCompetence $grpeCompetence): self
+    public function setGpeCompetence(?GpeCompetence $gpeCompetence): self
     {
-        if (!$this->grpeCompetence->contains($grpeCompetence)) {
-            $this->grpeCompetence[] = $grpeCompetence;
-        }
-
-        return $this;
-    }
-
-    public function removeGrpeCompetence(GrpeCompetence $grpeCompetence): self
-    {
-        if ($this->grpeCompetence->contains($grpeCompetence)) {
-            $this->grpeCompetence->removeElement($grpeCompetence);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Niveau[]
-     */
-    public function getNiveaux(): Collection
-    {
-        return $this->niveaux;
-    }
-
-    public function addNiveau(Niveau $niveau): self
-    {
-        if (!$this->niveaux->contains($niveau)) {
-            $this->niveaux[] = $niveau;
-            $niveau->addCompetence($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNiveau(Niveau $niveau): self
-    {
-        if ($this->niveaux->contains($niveau)) {
-            $this->niveaux->removeElement($niveau);
-            $niveau->removeCompetence($this);
-        }
+        $this->gpeCompetence = $gpeCompetence;
 
         return $this;
     }

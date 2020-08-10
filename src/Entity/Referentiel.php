@@ -2,47 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ReferentielRepository;
-use Doctrine\Common\Collections\Collection;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ReferentielRepository::class)
- * @ApiResource(
- *      attributes={
- *          "security"="is_granted('ROLE_ADMIN')||is_granted('ROLE_FORMATEUR')||is_granted('ROLE_CM')",
- *          "security_message"="Vous n'avez pas access à cette Ressource"
- *      },
- *      collectionOperations={
- *          "ref_gpecomp"={
- *              "path"="/admin/referentiels",
- *              "normalization_context"={"groups"={"refgpecomp:read"}},
- *              "method"="GET"
- *          },
- *          "gpecomp_comp"={
- *              "path"="/admin/referentiels/grpecompetences",
- *              "normalization_context"={"groups"={"gpecompcomp:read"}},
- *              "method"="GET"
- *          },
- *          "post"={"path"="/admin/referentiels"}
- *      },
- *      itemOperations={
- *          "ref_gpecomp_id"={
- *              "path"="/admin/referentiels/{id}",
- *              "normalization_context"={"groups"={"refgpecomp:read"}},
- *              "method"="GET"
- *          },
- *          "gpecomp_comp_id"={
- *              "path"="/admin/referentiels/grpecompetences/{id}",
- *              "normalization_context"={"groups"={"gpecompcomp:read"}},
- *              "method"="GET"
- *          },
- *          "put"={"path"="/admin/referentiels/{id}"}
- *      }
- * )
  */
 class Referentiel
 {
@@ -50,25 +16,23 @@ class Referentiel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"refgpecomp:read"})
      */
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Promo::class, inversedBy="referentiels")
+     * @ORM\ManyToMany(targetEntity=Promotion::class, inversedBy="referentiels")
      */
-    private $promo;
+    private $promo_referentiel;
 
     /**
-     * @ORM\ManyToMany(targetEntity=GrpeCompetence::class, inversedBy="referentiels")
-     * @Groups({"refgpecomp:read","gpecompcomp:read","reprogpecompcomp"})
+     * @ORM\ManyToMany(targetEntity=GpeCompetence::class, inversedBy="referentiels")
      */
-    private $grpeCompetence;
+    private $grpeCompetence_referentiel;
 
     public function __construct()
     {
-        $this->promo = new ArrayCollection();
-        $this->grpeCompetence = new ArrayCollection();
+        $this->promo_referentiel = new ArrayCollection();
+        $this->grpeCompetence_referentiel = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,52 +41,52 @@ class Referentiel
     }
 
     /**
-     * @return Collection|Promo[]
+     * @return Collection|Promotion[]
      */
-    public function getPromo(): Collection
+    public function getPromoReferentiel(): Collection
     {
-        return $this->promo;
+        return $this->promo_referentiel;
     }
 
-    public function addPromo(Promo $promo): self
+    public function addPromoReferentiel(Promotion $promoReferentiel): self
     {
-        if (!$this->promo->contains($promo)) {
-            $this->promo[] = $promo;
+        if (!$this->promo_referentiel->contains($promoReferentiel)) {
+            $this->promo_referentiel[] = $promoReferentiel;
         }
 
         return $this;
     }
 
-    public function removePromo(Promo $promo): self
+    public function removePromoReferentiel(Promotion $promoReferentiel): self
     {
-        if ($this->promo->contains($promo)) {
-            $this->promo->removeElement($promo);
+        if ($this->promo_referentiel->contains($promoReferentiel)) {
+            $this->promo_referentiel->removeElement($promoReferentiel);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|GrpeCompetence[]
+     * @return Collection|GpeCompetence[]
      */
-    public function getGrpeCompetence(): Collection
+    public function getGrpeCompetenceReferentiel(): Collection
     {
-        return $this->grpeCompetence;
+        return $this->grpeCompetence_referentiel;
     }
 
-    public function addGrpeCompetence(GrpeCompetence $grpeCompetence): self
+    public function addGrpeCompetenceReferentiel(GpeCompetence $grpeCompetenceReferentiel): self
     {
-        if (!$this->grpeCompetence->contains($grpeCompetence)) {
-            $this->grpeCompetence[] = $grpeCompetence;
+        if (!$this->grpeCompetence_referentiel->contains($grpeCompetenceReferentiel)) {
+            $this->grpeCompetence_referentiel[] = $grpeCompetenceReferentiel;
         }
 
         return $this;
     }
 
-    public function removeGrpeCompetence(GrpeCompetence $grpeCompetence): self
+    public function removeGrpeCompetenceReferentiel(GpeCompetence $grpeCompetenceReferentiel): self
     {
-        if ($this->grpeCompetence->contains($grpeCompetence)) {
-            $this->grpeCompetence->removeElement($grpeCompetence);
+        if ($this->grpeCompetence_referentiel->contains($grpeCompetenceReferentiel)) {
+            $this->grpeCompetence_referentiel->removeElement($grpeCompetenceReferentiel);
         }
 
         return $this;

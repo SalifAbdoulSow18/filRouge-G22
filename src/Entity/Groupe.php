@@ -20,29 +20,23 @@ class Groupe
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="groupe")
      */
-    private $nomGroupe;
+    private $groupe_apprenant;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Apprenant::class, inversedBy="groupes")
+     * @ORM\ManyToOne(targetEntity=Formateur::class, inversedBy="groupes")
      */
-    private $apprenant;
+    private $groupe_formateur;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="groupe")
+     * @ORM\ManyToOne(targetEntity=Promotion::class, inversedBy="groupe_promo")
      */
-    private $formateurs;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="groupe")
-     */
-    private $promo;
+    private $promotion;
 
     public function __construct()
     {
-        $this->apprenant = new ArrayCollection();
-        $this->formateurs = new ArrayCollection();
+        $this->groupe_apprenant = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,80 +44,57 @@ class Groupe
         return $this->id;
     }
 
-    public function getNomGroupe(): ?string
-    {
-        return $this->nomGroupe;
-    }
-
-    public function setNomGroupe(string $nomGroupe): self
-    {
-        $this->nomGroupe = $nomGroupe;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Apprenant[]
      */
-    public function getApprenant(): Collection
+    public function getGroupeApprenant(): Collection
     {
-        return $this->apprenant;
+        return $this->groupe_apprenant;
     }
 
-    public function addApprenant(Apprenant $apprenant): self
+    public function addGroupeApprenant(Apprenant $groupeApprenant): self
     {
-        if (!$this->apprenant->contains($apprenant)) {
-            $this->apprenant[] = $apprenant;
+        if (!$this->groupe_apprenant->contains($groupeApprenant)) {
+            $this->groupe_apprenant[] = $groupeApprenant;
+            $groupeApprenant->setGroupe($this);
         }
 
         return $this;
     }
 
-    public function removeApprenant(Apprenant $apprenant): self
+    public function removeGroupeApprenant(Apprenant $groupeApprenant): self
     {
-        if ($this->apprenant->contains($apprenant)) {
-            $this->apprenant->removeElement($apprenant);
+        if ($this->groupe_apprenant->contains($groupeApprenant)) {
+            $this->groupe_apprenant->removeElement($groupeApprenant);
+            // set the owning side to null (unless already changed)
+            if ($groupeApprenant->getGroupe() === $this) {
+                $groupeApprenant->setGroupe(null);
+            }
         }
 
         return $this;
     }
 
-    /**
-     * @return Collection|Formateur[]
-     */
-    public function getFormateurs(): Collection
+    public function getGroupeFormateur(): ?Formateur
     {
-        return $this->formateurs;
+        return $this->groupe_formateur;
     }
 
-    public function addFormateur(Formateur $formateur): self
+    public function setGroupeFormateur(?Formateur $groupe_formateur): self
     {
-        if (!$this->formateurs->contains($formateur)) {
-            $this->formateurs[] = $formateur;
-            $formateur->addGroupe($this);
-        }
+        $this->groupe_formateur = $groupe_formateur;
 
         return $this;
     }
 
-    public function removeFormateur(Formateur $formateur): self
+    public function getPromotion(): ?Promotion
     {
-        if ($this->formateurs->contains($formateur)) {
-            $this->formateurs->removeElement($formateur);
-            $formateur->removeGroupe($this);
-        }
-
-        return $this;
+        return $this->promotion;
     }
 
-    public function getPromo(): ?Promo
+    public function setPromotion(?Promotion $promotion): self
     {
-        return $this->promo;
-    }
-
-    public function setPromo(?Promo $promo): self
-    {
-        $this->promo = $promo;
+        $this->promotion = $promotion;
 
         return $this;
     }
