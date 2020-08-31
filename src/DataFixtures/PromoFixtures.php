@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+<<<<<<< HEAD
 use App\Entity\Apprenant;
 use Faker\Factory;
 use App\Entity\Promo;
@@ -108,6 +109,25 @@ class PromoFixtures extends Fixture
             $groupe->addFormateur($user);
 
             $manager->persist($profil);
+=======
+use App\Entity\Promo;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+
+class PromoFixtures extends Fixture
+{
+    public function load(ObjectManager $manager)
+    {
+
+        $promotion = new Promo();
+        $promotion
+                ->setLibelle("libelle")
+                ->setAnnee(new \DateTime())
+                ->setDateDebut(new \DateTime())
+                ->setDateFin(new \DateTime());
+
+        $manager->persist($promotion);
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
 
         $manager->flush();
     }

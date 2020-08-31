@@ -17,9 +17,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "security_message"="Vous n'avez pas access à cette Ressource"
  *          },
  *      collectionOperations={
+<<<<<<< HEAD
  *          "referentiel_formateur_gpe"={
  *              "path"="/admin/promo",
  *              "normalization_context"={"groups"={"referentiel_formateur_gpe:read"}},
+=======
+ *          "ref_form_gpe"={
+ *              "path"="/admin/promo",
+ *              "normalization_context"={"groups"={"reforgpe"}},
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
  *              "method"="GET"
  *          },
  *          "post"={
@@ -31,11 +37,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      itemOperations={
  *          "ref_form_gpe_id"={
  *              "path"="/admin/promo/{id}/referentiels",
+<<<<<<< HEAD
  *              "normalization_context"={"groups"={"promo_ref_gpecomp_competence:read"}},
+=======
+ *              "normalization_context"={"groups"={"reprogpecompcomp"}},
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
  *              "method"="GET"
  *          },
  *          "ref_prom_gpecom_comp_id"={
  *              "path"="/admin/promo/{id}",
+<<<<<<< HEAD
  *              "normalization_context"={"groups"={"referentiel_formateur_gpe:read"}},
  *              "method"="GET"
  *          },
@@ -66,6 +77,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "normalization_context"={"groups"={"apprenant_id_promo:read"}},
  *              "method"="GET"
  *          },
+=======
+ *              "normalization_context"={"groups"={"reforgpe"}},
+ *              "method"="GET"
+ *          },
+ *          "put"={
+ *              "path"="/admin/promo/{id}",
+ *              "security"="is_granted('ROLE_ADMIN') || is_granted('ROLE_FORMATEUR')",
+ *              "security_message"="Vous n'avez pas access à cette Ressource"
+ *          },
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
  *      }
  * )
  */
@@ -81,18 +102,27 @@ class Promo
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"prom_ref_app_form", "referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read","apprenant_id_promo:read","put_ref_promo:read","statut_groupe:read","apprenant_profilsortie_promo"}) 
+=======
+     * @Groups({"reprogpecompcomp"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="date")
+<<<<<<< HEAD
      * @Groups({"prom_ref_app_form","referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read","apprenant_id_promo:read","apprenant_profilsortie_promo"})
+=======
+     * @Groups({"reprogpecompcomp"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $annee;
 
     /**
      * @ORM\Column(type="date")
+<<<<<<< HEAD
      * @Groups({"referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read"})
      */
     private $dateDebut;
@@ -106,18 +136,43 @@ class Promo
     /**
      * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="promo", cascade={"persist"})
      * @Groups({"referentiel_formateur_gpe:read"})
+=======
+     * @Groups({"reprogpecompcomp"})
+     */
+    private $dateDebut;
+
+    /**
+     * @ORM\Column(type="date")
+     * @Groups({"reprogpecompcomp"})
+     */
+    private $dateFin;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="promo")
+     * @Groups({"reforgpe"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $formateurs;
 
     /**
+<<<<<<< HEAD
      * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="promo",cascade={"persist"})
      * @Groups({"referentiel_formateur_gpe:read","apprenant_id_promo:read"})
+=======
+     * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="promo")
+     * @Groups({"reforgpe"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $groupe;
 
     /**
+<<<<<<< HEAD
      * @ORM\ManyToMany(targetEntity=Referentiel::class, mappedBy="promo", cascade={"persist"})
      * @Groups({"referentiel_formateur_gpe:read","prom_ref_app_form","promo_ref_gpecomp_competence:read","apprenant_id_promo:read","put_ref_promo:read","statut_groupe:read"})
+=======
+     * @ORM\ManyToMany(targetEntity=Referentiel::class, mappedBy="promo")
+     * @Groups({"reforgpe","reprogpecompcomp"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $referentiels;
 
@@ -296,6 +351,7 @@ class Promo
 
         return $this;
     }
+<<<<<<< HEAD
 
     /**
      * @return Collection|CompetencesValides[]
@@ -432,4 +488,6 @@ class Promo
 
         return $this;
     }
+=======
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
 }

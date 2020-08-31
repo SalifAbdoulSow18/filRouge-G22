@@ -5,7 +5,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\NiveauRepository;
 use Doctrine\Common\Collections\Collection;
+<<<<<<< HEAD
 use ApiPlatform\Core\Annotation\ApiResource;
+=======
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -24,7 +27,11 @@ class Niveau
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"competence_niveau:read","briefs:read"})
+=======
+     * @Groups({"niveau:read"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $id;
 

@@ -19,11 +19,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *       "security_message"="Vous n'avez pas access à cette Ressource"
 * },
  * collectionOperations={
+<<<<<<< HEAD
 *    "post"={"path"="/apprenants"},
 *}, 
 *itemOperations={
 *   "get"={"security"="is_granted('ROLE_ADMIN')","security_message"="Vous n'avez pas acces a cette ressource.","path"="/apprenants/{id}"}, 
 *  }
+=======
+*    "post"={"path"="/apprenants"}
+*}
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
  * )
  */
 class Apprenant extends User

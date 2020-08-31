@@ -8,12 +8,16 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+<<<<<<< HEAD
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+=======
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
 
 /**
  * @ORM\Entity(repositoryClass=CompetenceRepository::class)
  * @ApiResource(
+<<<<<<< HEAD
  *      attributes={
  *          "security"="is_granted('ROLE_ADMIN')||is_granted('ROLE_FORMATEUR')||is_granted('ROLE_CM')",
  *          "security_message"="Vous n'avez pas access à cette Ressource"
@@ -23,19 +27,43 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *              "path"="/admin/competences",
  *              "method"="GET",
  *              "normalization_context"={"groups"={"competence_niveau:read"}}
+=======
+ * attributes={
+ *          "security"="is_granted('ROLE_ADMIN')||is_granted('ROLE_FORMATEUR')||is_granted('ROLE_CM')",
+ *          "security_message"="Vous n'avez pas access à cette Ressource"
+ *     },
+ *     collectionOperations={
+ *          "Competence_and_niveau"={
+ *              "path"="/admin/competences",
+ *              "method"="GET",
+ *              "normalization_context"={"groups"={"niveau:read"}}
+ *          },
+ *          "post"={
+ *              "path"="/admin/competences",
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas access à cette Ressource"
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
  *          }
  *      },
  *      itemOperations={
  *          "get"={
  *              "path"="/admin/competences/{id}",
+<<<<<<< HEAD
  *              "normalization_context"={"groups"={"competence_niveau:read"}}
+=======
+ *              "normalization_context"={"groups"={"niveau:read"}}
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
  *          },
  *          "put"={
  *              "path"="/admin/competences/{id}",
  *              "security"="is_granted('ROLE_ADMIN')",
  *              "security_message"="Vous n'avez pas access à cette Ressource"
  *          }
+<<<<<<< HEAD
  *      }
+=======
+ * }
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
  * )
  */
 class Competence
@@ -44,14 +72,22 @@ class Competence
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"promo_ref_gpecomp_competence:read","ref_gpecomp_comp:read","gpecompetence_competence_id:read","gpecompetence_competences:read","competenceof_gpecompetence", "competence_niveau:read","briefs:read"})
+=======
+     * @Groups({"modou:read","japonais:read"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"promo_ref_gpecomp_competence:read","ref_gpecomp_comp:read","gpecompetence_competence_id:read","gpecompetence_competences:read","competenceof_gpecompetence", "competence_niveau:read","briefs:read"})
      * @Assert\NotBlank(message="Bindeul dara gayn")
+=======
+     * @Groups({"modou:read","japonais:read"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $nomCompetence;
 
@@ -61,8 +97,13 @@ class Competence
     private $grpeCompetence;
 
     /**
+<<<<<<< HEAD
      * @ORM\ManyToMany(targetEntity=Niveau::class, mappedBy="competence", cascade={"persist"})
      * @Groups({"competence_niveau:read"})
+=======
+     * @ORM\ManyToMany(targetEntity=Niveau::class, mappedBy="competence")
+     * @Groups({"niveau:read"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
      */
     private $niveaux;
 
