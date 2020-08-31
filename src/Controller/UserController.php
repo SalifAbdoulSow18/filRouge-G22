@@ -7,9 +7,9 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Security;
 
@@ -31,14 +31,13 @@ class UserController extends AbstractController
         ]);
     }
 
-     /**
-     * @Route("/api/apprenants", name="api_add_apprenant", methods={"POST"})
-     */
+     
     public function addApprenant(SerializerInterface $serializer,Request $request,ValidatorInterface $validator)
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
         //Recuperation du contenue body de la requette
         $apprenantJson = $request->getContent();
-        $apprenant = $serializer->deserialize($apprenantJson,User::class,'json');
+        $apprenant = $serializer->deserialize($apprenantJson,APPRENANT::class,'json');
         //Validation des données
         $errors = $validator->validate($apprenant);
         if (count($errors) > 0) {
@@ -49,6 +48,9 @@ class UserController extends AbstractController
         $entityManager->persist($apprenant);
         $entityManager->flush();
         return new JsonResponse("succes",Response::HTTP_CREATED,[],true);
+    }else {
+        return $this->json(" you don't haave access to this !!!");
+    }
     }   
 
 

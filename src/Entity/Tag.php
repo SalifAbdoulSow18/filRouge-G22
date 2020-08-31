@@ -8,12 +8,13 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TagRepository::class)
  * @ApiResource(
- *    attributes={
+ *      attributes={
  *          "security"="is_granted('ROLE_ADMIN')||is_granted('ROLE_FORMATEUR')",
  *          "security_message"="Vous n'avez pas access à cette Ressource"
  *      },
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      itemOperations={
  *          "get"={"path"="/admin/tags/{id}"},
  *          "put"={"path"="/admin/tags/{id}"}
- * }
+ *      }
  * )
  */
 class Tag
@@ -33,6 +34,7 @@ class Tag
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"briefs:read"})
      */
     private $id;
 
@@ -43,13 +45,20 @@ class Tag
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank( message="this field cannot be empty !!!" )
+     * @Assert\NotBlank( message="this field cannot be empty !!!")
+     * @Groups({"briefs:read"})
      */
     private $nomTag;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Brief::class, mappedBy="tag")
+     */
+    private $briefs;
 
     public function __construct()
     {
         $this->groupeTag = new ArrayCollection();
+        $this->briefs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,6 +100,34 @@ class Tag
     public function setNomTag(string $nomTag): self
     {
         $this->nomTag = $nomTag;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Brief[]
+     */
+    public function getBriefs(): Collection
+    {
+        return $this->briefs;
+    }
+
+    public function addBrief(Brief $brief): self
+    {
+        if (!$this->briefs->contains($brief)) {
+            $this->briefs[] = $brief;
+            $brief->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBrief(Brief $brief): self
+    {
+        if ($this->briefs->contains($brief)) {
+            $this->briefs->removeElement($brief);
+            $brief->removeTag($this);
+        }
 
         return $this;
     }
