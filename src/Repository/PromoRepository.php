@@ -47,4 +47,17 @@ class PromoRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function ifRefInPromo($idpromo,$idr)
+       {
+           return $this->createQueryBuilder('u')
+               ->andWhere('u.id = :val')
+               ->andWhere('u.referentiel = :p')
+               ->setParameter('p',$idr)
+               ->setParameter('val',$idpromo  )
+               ->getQuery()
+               ->getResult()
+           ;
+       }
+
 }

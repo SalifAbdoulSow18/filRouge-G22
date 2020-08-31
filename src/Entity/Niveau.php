@@ -2,13 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\NiveauRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\NiveauRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=NiveauRepository::class)
+ * @ApiResource(
+ *      attributes={
+ *          "security"="is_granted('ROLE_ADMIN')",
+ *          "security_message"="Vous n'avez pas access à cette Ressource"
+ *      },
+ * )
  */
 class Niveau
 {
@@ -16,17 +24,37 @@ class Niveau
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"brief_assigned","competence_niveau:read","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
      */
     private $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=Competence::class, inversedBy="niveaux")
+     * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
      */
     private $competence;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"brief_assigned","competence_niveau:read","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+     */
+    private $level;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Brief::class, mappedBy="niveau")
+     */
+    private $briefs;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=LivrablePartiel::class, mappedBy="niveau")
+     */
+    private $livrablePartiels;
 
     public function __construct()
     {
         $this->competence = new ArrayCollection();
+        $this->briefs = new ArrayCollection();
+        $this->livrablePartiels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,6 +83,74 @@ class Niveau
     {
         if ($this->competence->contains($competence)) {
             $this->competence->removeElement($competence);
+        }
+
+        return $this;
+    }
+
+    public function getLevel(): ?string
+    {
+        return $this->level;
+    }
+
+    public function setLevel(string $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Brief[]
+     */
+    public function getBriefs(): Collection
+    {
+        return $this->briefs;
+    }
+
+    public function addBrief(Brief $brief): self
+    {
+        if (!$this->briefs->contains($brief)) {
+            $this->briefs[] = $brief;
+            $brief->addNiveau($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBrief(Brief $brief): self
+    {
+        if ($this->briefs->contains($brief)) {
+            $this->briefs->removeElement($brief);
+            $brief->removeNiveau($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LivrablePartiel[]
+     */
+    public function getLivrablePartiels(): Collection
+    {
+        return $this->livrablePartiels;
+    }
+
+    public function addLivrablePartiel(LivrablePartiel $livrablePartiel): self
+    {
+        if (!$this->livrablePartiels->contains($livrablePartiel)) {
+            $this->livrablePartiels[] = $livrablePartiel;
+            $livrablePartiel->addNiveau($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivrablePartiel(LivrablePartiel $livrablePartiel): self
+    {
+        if ($this->livrablePartiels->contains($livrablePartiel)) {
+            $this->livrablePartiels->removeElement($livrablePartiel);
+            $livrablePartiel->removeNiveau($this);
         }
 
         return $this;

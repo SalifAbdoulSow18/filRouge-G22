@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -10,9 +12,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type" , type="string")
- * @ORM\DiscriminatorMap({"admin"="Admin","apprenant"="Apprenant", "cm"="CM" , "formateur"="Formateur" ,"user"="User"})
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"admin"="Admin","apprenant"="Apprenant", "cm"="Cm" , "formateur"="Formateur" ,"user"="User"})
  * @ApiResource( 
  * normalizationContext={"groups"={"user:read"}},
  *  attributes={
@@ -36,15 +38,13 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * 
-     * @Groups({"user:read"})
+     * @Groups({"brief_assigned","user:read","profilusers:read","brief_gpe_promo","brief_of_promo","brief_of_one_promo"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * 
-     * @Groups({"user:read"})
+     * @Groups({"brief_assigned","user:read","referentiel_formateur_gpe:read","profilusers:read","brief_gpe_promo","brief_of_promo","brief_of_one_promo"})
      */
     private $email;
 
@@ -64,25 +64,25 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read"})
+     * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","user:read","referentiel_formateur_gpe:read","profilusers:read","apprenant_id_promo:read"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read"})
+     * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","user:read", "referentiel_formateur_gpe:read","profilusers:read","apprenant_id_promo:read"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read"})
+     * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","user:read", "referentiel_formateur_gpe:read","profilusers:read"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read"})
+     * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","user:read","profilusers:read"})
      */
     private $adress;
 
@@ -90,6 +90,16 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity=Profil::class, inversedBy="users")
      */
     private $profil;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Chat::class, mappedBy="user")
+     */
+    private $chats;
+
+    public function __construct()
+    {
+        $this->chats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -232,6 +242,37 @@ class User implements UserInterface
     public function setProfil(?Profil $profil): self
     {
         $this->profil = $profil;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Chat[]
+     */
+    public function getChats(): Collection
+    {
+        return $this->chats;
+    }
+
+    public function addChat(Chat $chat): self
+    {
+        if (!$this->chats->contains($chat)) {
+            $this->chats[] = $chat;
+            $chat->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChat(Chat $chat): self
+    {
+        if ($this->chats->contains($chat)) {
+            $this->chats->removeElement($chat);
+            // set the owning side to null (unless already changed)
+            if ($chat->getUser() === $this) {
+                $chat->setUser(null);
+            }
+        }
 
         return $this;
     }
