@@ -38,7 +38,7 @@ class GroupeTag
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="groupeTag")
+     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="groupeTag", cascade={"persist"})
      * @ApiSubresource
      */
     private $tags;

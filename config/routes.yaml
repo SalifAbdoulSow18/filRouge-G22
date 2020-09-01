@@ -14,11 +14,17 @@ showApprenant:
     path: /api/apprenants
     controller: App\Controller\UserController::showApprenant
     methods: ['GET']
+
+addApprenant:
+    path: /api/apprenants
+    controller: App\Controller\UserController::addApprenant
+    methods: ['POST']
     
 showApprenantById:
     path: /api/apprenants/{id}
     controller: App\Controller\UserController::showApprenantById
-    methods: ['GET','PUT']   
+    methods: ['GET','PUT']
+
 
 # config/routes.yaml
 authentication_token:

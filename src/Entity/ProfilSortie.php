@@ -20,13 +20,16 @@ class ProfilSortie
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Apprenant::class, inversedBy="profilSorties")
+     * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="profilSortie")
      */
-    private $apprenant;
+    private $apprenants;
+
+   
 
     public function __construct()
     {
         $this->apprenant = new ArrayCollection();
+        $this->apprenants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -37,15 +40,16 @@ class ProfilSortie
     /**
      * @return Collection|Apprenant[]
      */
-    public function getApprenant(): Collection
+    public function getApprenants(): Collection
     {
-        return $this->apprenant;
+        return $this->apprenants;
     }
 
     public function addApprenant(Apprenant $apprenant): self
     {
-        if (!$this->apprenant->contains($apprenant)) {
-            $this->apprenant[] = $apprenant;
+        if (!$this->apprenants->contains($apprenant)) {
+            $this->apprenants[] = $apprenant;
+            $apprenant->setProfilSortie($this);
         }
 
         return $this;
@@ -53,10 +57,17 @@ class ProfilSortie
 
     public function removeApprenant(Apprenant $apprenant): self
     {
-        if ($this->apprenant->contains($apprenant)) {
-            $this->apprenant->removeElement($apprenant);
+        if ($this->apprenants->contains($apprenant)) {
+            $this->apprenants->removeElement($apprenant);
+            // set the owning side to null (unless already changed)
+            if ($apprenant->getProfilSortie() === $this) {
+                $apprenant->setProfilSortie(null);
+            }
         }
 
         return $this;
     }
+    
+
+    
 }

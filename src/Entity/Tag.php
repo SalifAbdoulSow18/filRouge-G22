@@ -37,7 +37,7 @@ class Tag
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=GroupeTag::class, inversedBy="tags")
+     * @ORM\ManyToMany(targetEntity=GroupeTag::class, inversedBy="tags", cascade={"persist"})
      */
     private $groupeTag;
 
@@ -47,9 +47,15 @@ class Tag
      */
     private $nomTag;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Brief::class, mappedBy="tag", cascade={"persist"})
+     */
+    private $briefs;
+
     public function __construct()
     {
         $this->groupeTag = new ArrayCollection();
+        $this->briefs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,6 +97,34 @@ class Tag
     public function setNomTag(string $nomTag): self
     {
         $this->nomTag = $nomTag;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Brief[]
+     */
+    public function getBriefs(): Collection
+    {
+        return $this->briefs;
+    }
+
+    public function addBrief(Brief $brief): self
+    {
+        if (!$this->briefs->contains($brief)) {
+            $this->briefs[] = $brief;
+            $brief->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBrief(Brief $brief): self
+    {
+        if ($this->briefs->contains($brief)) {
+            $this->briefs->removeElement($brief);
+            $brief->removeTag($this);
+        }
 
         return $this;
     }

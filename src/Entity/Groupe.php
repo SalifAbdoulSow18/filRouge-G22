@@ -2,13 +2,57 @@
 
 namespace App\Entity;
 
-use App\Repository\GroupeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GroupeRepository;
+use Doctrine\Common\Collections\Collection;
+
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GroupeRepository::class)
+ * @ApiResource(
+ *      normalizationContext={"groups"={"prom_ref_app_form"}},
+ *      attributes={
+ *          "security"="is_granted('ROLE_ADMIN') || is_granted('ROLE_FORMATEUR')",
+ *          "security_message"="Vous n'avez pas access à cette Ressource"
+ *      },
+ *      collectionOperations={
+ *          "promo_ref_apprenant_formateur"={
+ *              "method"="GET", 
+ *              "path"="/admin/groupes"
+ *          },
+ *          "crew_get"={
+ *              "method"="GET", 
+ *              "path"="admin/groupes/apprenants"
+ *          },
+ *          "crew_post"={
+ *              "method"="POST", 
+ *              "path"="/admin/groupes",
+ *              "defaults"={"id"=null}
+ *          }
+ *      },
+ *      itemOperations={
+ *          "crew_item"={
+ *              "method"="GET", 
+ *              "path"="/admin/groupes/{id}"
+ *          },
+ *          "criw_item"={
+ *              "method"="PUT", 
+ *              "path"="/admin/groupes/{id}"
+ *          },
+ *          "criw_del"={
+ *              "method"="DELETE", 
+ *              "path"="/admin/groupes/{id}/apprenants"
+ *          },
+ *          "get_crew_student"={
+ *              "method"="GET", 
+ *              "path"="/admin/groupes/{id}/apprenants"
+ *          }
+ * 
+ *      }
+ *)
  */
 class Groupe
 {
@@ -16,33 +60,54 @@ class Groupe
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"prom_ref_app_form", "referentiel_formateur_gpe:read","statut_groupe:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"prom_ref_app_form", "referentiel_formateur_gpe:read","apprenant_id_promo:read","statut_groupe:read"})
      */
     private $nomGroupe;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Apprenant::class, inversedBy="groupes")
+     * @ORM\ManyToMany(targetEntity=Apprenant::class, inversedBy="groupes", cascade={"persist"})
+     * @Groups({"prom_ref_app_form","apprenant_id_promo:read"})
      */
     private $apprenant;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="groupe")
+     * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="groupe", cascade={"persist"})
+     * @Groups({"prom_ref_app_form"})
      */
     private $formateurs;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="groupe")
+     * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="groupe",cascade={"persist"})
+     * @Groups({"prom_ref_app_form"})
      */
     private $promo;
+
+    /**
+     * @ORM\OneToMany(targetEntity=EtatBriefGroupe::class, mappedBy="groupe")
+     */
+    private $etatbriefgroupe;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $statut;
 
     public function __construct()
     {
         $this->apprenant = new ArrayCollection();
         $this->formateurs = new ArrayCollection();
+        $this->etatbriefgroupe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,6 +189,61 @@ class Groupe
     public function setPromo(?Promo $promo): self
     {
         $this->promo = $promo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EtatBriefGroupe[]
+     */
+    public function getEtatbriefgroupe(): Collection
+    {
+        return $this->etatbriefgroupe;
+    }
+
+    public function addEtatbriefgroupe(EtatBriefGroupe $etatbriefgroupe): self
+    {
+        if (!$this->etatbriefgroupe->contains($etatbriefgroupe)) {
+            $this->etatbriefgroupe[] = $etatbriefgroupe;
+            $etatbriefgroupe->setGroupe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtatbriefgroupe(EtatBriefGroupe $etatbriefgroupe): self
+    {
+        if ($this->etatbriefgroupe->contains($etatbriefgroupe)) {
+            $this->etatbriefgroupe->removeElement($etatbriefgroupe);
+            // set the owning side to null (unless already changed)
+            if ($etatbriefgroupe->getGroupe() === $this) {
+                $etatbriefgroupe->setGroupe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

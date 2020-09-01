@@ -14,22 +14,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
  * @ApiResource(
- * normalizationContext={"groups"={"profil:read"}},
- *  attributes={
- *       "security"="is_granted('ROLE_ADMIN')",
- *       "security_message"="Vous n'avez pas access à cette Ressource"
-* },
- * collectionOperations={
- *   "get"={"path"="/admin/profils"},
-*    "post"={"path"="/admin/profils"}
-*},
-*   itemOperations={
-*   "get"={"path"="/admin/profils/{id}"},
-*   "put"={"path"="/admin/profils/{id}"},
-*   "delete"={"path"="/admin/profils/{id}"}
-*}
- *  
- * )
+ *      normalizationContext={"groups"={"profil:read"}},
+ *      attributes={
+ *          "security"="is_granted('ROLE_ADMIN')",
+ *          "security_message"="Vous n'avez pas access à cette Ressource"
+ *      },
+ *      collectionOperations={
+ *          "get"={"path"="/admin/profils"},
+ *          "get_profil_and_users"={
+ *              "method"="GET",
+ *              "path"="/admin/profils/users",
+ *              "normalization_context"={"groups"={"profilusers:read"}}
+ *          },
+ *          "post"={"path"="/admin/profils"}
+ *      },
+ *      itemOperations={
+ *          "get"={"path"="/admin/profils/{id}"},
+ *          "users_of_one_profil"={
+ *              "method"="GET",
+ *              "path"="/admin/profils/{id}/users",
+ *              "normalization_context"={"groups"={"profilusers:read"}}
+ *          },
+ *          "put"={"path"="/admin/profils/{id}"},
+ *          "delete"={"path"="/admin/profils/{id}"}
+ *      }
+ *)
  */
 class Profil
 {
@@ -37,13 +46,13 @@ class Profil
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"profil:read"})
+     * @Groups({"profil:read","profilusers:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"profil:read"})
+     * @Groups({"profil:read","profilusers:read"})
      * @Assert\NotBlank( message="this field cannot be empty !!!" )
      */
     private $libelle;
@@ -51,6 +60,7 @@ class Profil
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="profil")
      * @ApiSubresource
+     * @Groups({"profilusers:read"})
      */
     private $users;
 
