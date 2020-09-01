@@ -347,7 +347,7 @@ class LivrablePartielController extends AbstractController
     /**
      * @Route(
      *     name="modiflivrable",
-     *      path="/api/formateurs/promo/{idp}/briefs/{idb}/livrablePartiels",
+     *      path="/api/formateurs/promo/{idp}/briefs/{idb}/livrablePartiels",    
      *      methods={"PUT"}
      * )
      */
