@@ -61,115 +61,189 @@ class Brief
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $langue;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $nomBrief;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $contexte;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $modalitePedagogique;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $critereDevaluation;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $modaliteDevaluation;
 
     /**
+<<<<<<< HEAD
      * @ORM\Column(type="blob", nullable=true)
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @ORM\Column(type="blob")
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $imagePromo;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $archiver;
 
     /**
      * @ORM\Column(type="datetime")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $createAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $etat;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="briefs")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $tag;
 
     /**
      * @ORM\ManyToMany(targetEntity=LivrableAttendu::class, inversedBy="briefs")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $livrableattendu;
 
     /**
      * @ORM\ManyToMany(targetEntity=Niveau::class, inversedBy="briefs")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $niveau;
 
     /**
      * @ORM\OneToMany(targetEntity=Ressource::class, mappedBy="brief")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $ressource;
 
     /**
      * @ORM\OneToMany(targetEntity=BriefMaPromo::class, mappedBy="brief")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $briefmapromo;
 
     /**
      * @ORM\OneToMany(targetEntity=EtatBriefGroupe::class, mappedBy="brief")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $etatbriefgroupe;
 
     /**
      * @ORM\ManyToOne(targetEntity=Formateur::class, inversedBy="briefs")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $formateur;
 

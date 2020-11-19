@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
+<<<<<<< HEAD
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CompetencesValidesRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
+=======
+use App\Repository\CompetencesValidesRepository;
+use Doctrine\ORM\Mapping as ORM;
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 
 /**
  * @ORM\Entity(repositoryClass=CompetencesValidesRepository::class)
@@ -48,11 +53,14 @@ class CompetencesValides
      */
     private $promo;
 
+<<<<<<< HEAD
     /**
      * @ORM\ManyToOne(targetEntity=Referentiel::class, inversedBy="competencesValides")
      */
     private $referentiel;
 
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
     public function getId(): ?int
     {
         return $this->id;
@@ -129,6 +137,7 @@ class CompetencesValides
 
         return $this;
     }
+<<<<<<< HEAD
 
     public function getReferentiel(): ?Referentiel
     {
@@ -141,4 +150,6 @@ class CompetencesValides
 
         return $this;
     }
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 }

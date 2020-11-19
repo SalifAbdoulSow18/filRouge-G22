@@ -17,9 +17,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "security_message"="Vous n'avez pas access à cette Ressource"
  *          },
  *      collectionOperations={
+<<<<<<< HEAD
  *          "referentiel_formateur_gpe"={
  *              "path"="/admin/promo",
  *              "normalization_context"={"groups"={"referentiel_formateur_gpe:read"}},
+=======
+<<<<<<< HEAD
+ *          "referentiel_formateur_gpe"={
+ *              "path"="/admin/promo",
+ *              "normalization_context"={"groups"={"referentiel_formateur_gpe:read"}},
+=======
+ *          "ref_form_gpe"={
+ *              "path"="/admin/promo",
+ *              "normalization_context"={"groups"={"reforgpe"}},
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
  *              "method"="GET"
  *          },
  *          "post"={
@@ -31,11 +43,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      itemOperations={
  *          "ref_form_gpe_id"={
  *              "path"="/admin/promo/{id}/referentiels",
+<<<<<<< HEAD
  *              "normalization_context"={"groups"={"promo_ref_gpecomp_competence:read"}},
+=======
+<<<<<<< HEAD
+ *              "normalization_context"={"groups"={"promo_ref_gpecomp_competence:read"}},
+=======
+ *              "normalization_context"={"groups"={"reprogpecompcomp"}},
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
  *              "method"="GET"
  *          },
  *          "ref_prom_gpecom_comp_id"={
  *              "path"="/admin/promo/{id}",
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
  *              "normalization_context"={"groups"={"referentiel_formateur_gpe:read"}},
  *              "method"="GET"
  *          },
@@ -66,6 +90,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "normalization_context"={"groups"={"apprenant_id_promo:read"}},
  *              "method"="GET"
  *          },
+<<<<<<< HEAD
+=======
+=======
+ *              "normalization_context"={"groups"={"reforgpe"}},
+ *              "method"="GET"
+ *          },
+ *          "put"={
+ *              "path"="/admin/promo/{id}",
+ *              "security"="is_granted('ROLE_ADMIN') || is_granted('ROLE_FORMATEUR')",
+ *              "security_message"="Vous n'avez pas access à cette Ressource"
+ *          },
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
  *      }
  * )
  */
@@ -75,49 +112,118 @@ class Promo
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","promo_ref_gpecomp_competence:read","prom_ref_app_form","put_ref_promo:read","brief_gpe_promo"})
+=======
+     * @Groups({"promo_ref_gpecomp_competence:read","prom_ref_app_form","put_ref_promo:read","apprenant_profilsortie_promo"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","prom_ref_app_form","brief_gpe_promo","brief_of_promo", "referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read","apprenant_id_promo:read","put_ref_promo:read","statut_groupe:read"}) 
+=======
+<<<<<<< HEAD
+     * @Groups({"prom_ref_app_form", "referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read","apprenant_id_promo:read","put_ref_promo:read","statut_groupe:read","apprenant_profilsortie_promo"}) 
+=======
+     * @Groups({"reprogpecompcomp"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="date")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","prom_ref_app_form","brief_gpe_promo","brief_of_promo","referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read","apprenant_id_promo:read"})
+=======
+<<<<<<< HEAD
+     * @Groups({"prom_ref_app_form","referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read","apprenant_id_promo:read","apprenant_profilsortie_promo"})
+=======
+     * @Groups({"reprogpecompcomp"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $annee;
 
     /**
      * @ORM\Column(type="date")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","referentiel_formateur_gpe:read","brief_gpe_promo","brief_of_promo","promo_ref_gpecomp_competence:read"})
+=======
+<<<<<<< HEAD
+     * @Groups({"referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $dateDebut;
 
     /**
      * @ORM\Column(type="date")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","referentiel_formateur_gpe:read","brief_gpe_promo","brief_of_promo","promo_ref_gpecomp_competence:read",})
+=======
+     * @Groups({"referentiel_formateur_gpe:read","promo_ref_gpecomp_competence:read",})
      */
     private $dateFin;
 
     /**
      * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="promo", cascade={"persist"})
      * @Groups({"referentiel_formateur_gpe:read"})
+=======
+     * @Groups({"reprogpecompcomp"})
+     */
+    private $dateDebut;
+
+    /**
+     * @ORM\Column(type="date")
+     * @Groups({"reprogpecompcomp"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
+     */
+    private $dateFin;
+
+    /**
+<<<<<<< HEAD
+     * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="promo", cascade={"persist"})
+     * @Groups({"referentiel_formateur_gpe:read"})
+=======
+     * @ORM\ManyToMany(targetEntity=Formateur::class, mappedBy="promo")
+     * @Groups({"reforgpe"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $formateurs;
 
     /**
+<<<<<<< HEAD
      * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="promo",cascade={"persist"})
      * @Groups({"referentiel_formateur_gpe:read","apprenant_id_promo:read"})
+=======
+<<<<<<< HEAD
+     * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="promo",cascade={"persist"})
+     * @Groups({"referentiel_formateur_gpe:read","apprenant_id_promo:read"})
+=======
+     * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="promo")
+     * @Groups({"reforgpe"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $groupe;
 
     /**
+<<<<<<< HEAD
      * @ORM\ManyToMany(targetEntity=Referentiel::class, mappedBy="promo", cascade={"persist"})
      * @Groups({"referentiel_formateur_gpe:read","prom_ref_app_form","promo_ref_gpecomp_competence:read","apprenant_id_promo:read","put_ref_promo:read","statut_groupe:read"})
+=======
+<<<<<<< HEAD
+     * @ORM\ManyToMany(targetEntity=Referentiel::class, mappedBy="promo", cascade={"persist"})
+     * @Groups({"referentiel_formateur_gpe:read","prom_ref_app_form","promo_ref_gpecomp_competence:read","apprenant_id_promo:read","put_ref_promo:read","statut_groupe:read"})
+=======
+     * @ORM\ManyToMany(targetEntity=Referentiel::class, mappedBy="promo")
+     * @Groups({"reforgpe","reprogpecompcomp"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $referentiels;
 
@@ -128,7 +234,10 @@ class Promo
 
     /**
      * @ORM\ManyToOne(targetEntity=Referentiel::class, inversedBy="promos")
+<<<<<<< HEAD
      * @Groups({"brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $referentiel;
 
@@ -142,6 +251,14 @@ class Promo
      */
     private $briefmapromo;
 
+<<<<<<< HEAD
+=======
+    /**
+     * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="promo")
+     */
+    private $apprenants;
+
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
     public function __construct()
     {
         $this->formateurs = new ArrayCollection();
@@ -150,6 +267,10 @@ class Promo
         $this->competencesValides = new ArrayCollection();
         $this->chat = new ArrayCollection();
         $this->briefmapromo = new ArrayCollection();
+<<<<<<< HEAD
+=======
+        $this->apprenants = new ArrayCollection();
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
     }
 
     public function getId(): ?int
@@ -291,6 +412,10 @@ class Promo
 
         return $this;
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 
     /**
      * @return Collection|CompetencesValides[]
@@ -396,4 +521,40 @@ class Promo
 
         return $this;
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @return Collection|Apprenant[]
+     */
+    public function getApprenants(): Collection
+    {
+        return $this->apprenants;
+    }
+
+    public function addApprenant(Apprenant $apprenant): self
+    {
+        if (!$this->apprenants->contains($apprenant)) {
+            $this->apprenants[] = $apprenant;
+            $apprenant->setPromo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApprenant(Apprenant $apprenant): self
+    {
+        if ($this->apprenants->contains($apprenant)) {
+            $this->apprenants->removeElement($apprenant);
+            // set the owning side to null (unless already changed)
+            if ($apprenant->getPromo() === $this) {
+                $apprenant->setPromo(null);
+            }
+        }
+
+        return $this;
+    }
+=======
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 }

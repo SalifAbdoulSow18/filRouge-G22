@@ -39,12 +39,14 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups({"brief_assigned","user:read","profilusers:read","brief_gpe_promo","brief_of_promo","brief_of_one_promo"})
+     * @Groups({"user:read","profilusers:read","apprenant_profilsortie_promo","apprenant_promo_profilsortie"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"brief_assigned","user:read","referentiel_formateur_gpe:read","profilusers:read","brief_gpe_promo","brief_of_promo","brief_of_one_promo"})
+     * @Groups({"apprenant_profilsortie_promo","user:read","referentiel_formateur_gpe:read","profilusers:read","apprenant_promo_profilsortie"})
      */
     private $email;
 
@@ -64,25 +66,38 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","user:read","referentiel_formateur_gpe:read","profilusers:read","apprenant_id_promo:read"})
+=======
+     * @Groups({"user:read","referentiel_formateur_gpe:read","profilusers:read","apprenant_id_promo:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","user:read", "referentiel_formateur_gpe:read","profilusers:read","apprenant_id_promo:read"})
+=======
+     * @Groups({"user:read", "referentiel_formateur_gpe:read","profilusers:read","apprenant_id_promo:read","apprenant_profilsortie_promo","apprenant_promo_profilsortie"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","user:read", "referentiel_formateur_gpe:read","profilusers:read"})
+=======
+     * @Groups({"user:read", "referentiel_formateur_gpe:read","profilusers:read","apprenant_profilsortie_promo","apprenant_profilsortie_promo"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","user:read","profilusers:read"})
+     * @Groups({"user:read","profilusers:read","apprenant_profilsortie_promo"})
      */
     private $adress;
 
@@ -93,6 +108,10 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Chat::class, mappedBy="user")
+<<<<<<< HEAD
+=======
+     * Groups({"chat_apprenant:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $chats;
 

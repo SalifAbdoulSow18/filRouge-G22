@@ -34,7 +34,11 @@ class Tag
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $id;
 
@@ -46,7 +50,11 @@ class Tag
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank( message="this field cannot be empty !!!")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $nomTag;
 

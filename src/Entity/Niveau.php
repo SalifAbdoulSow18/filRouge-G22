@@ -5,7 +5,14 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\NiveauRepository;
 use Doctrine\Common\Collections\Collection;
+<<<<<<< HEAD
 use ApiPlatform\Core\Annotation\ApiResource;
+=======
+<<<<<<< HEAD
+use ApiPlatform\Core\Annotation\ApiResource;
+=======
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -24,19 +31,35 @@ class Niveau
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","competence_niveau:read","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+<<<<<<< HEAD
+     * @Groups({"competence_niveau:read","briefs:read"})
+=======
+     * @Groups({"niveau:read"})
+>>>>>>> 7e9215b8b667b706bac8381ff69638309b539849
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $id;
 
     /**
      * @ORM\ManyToMany(targetEntity=Competence::class, inversedBy="niveaux")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $competence;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","competence_niveau:read","briefs:read","brief_gpe_promo","brief_of_promo","brief_brouillon","brief_of_one_promo"})
+=======
+     * @Groups({"competence_niveau:read","briefs:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $level;
 

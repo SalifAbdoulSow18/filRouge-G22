@@ -60,19 +60,31 @@ class Groupe
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","prom_ref_app_form", "referentiel_formateur_gpe:read","statut_groupe:read"})
+=======
+     * @Groups({"prom_ref_app_form", "referentiel_formateur_gpe:read","statut_groupe:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo","prom_ref_app_form", "referentiel_formateur_gpe:read","apprenant_id_promo:read","statut_groupe:read"})
+=======
+     * @Groups({"prom_ref_app_form", "referentiel_formateur_gpe:read","apprenant_id_promo:read","statut_groupe:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $nomGroupe;
 
     /**
      * @ORM\ManyToMany(targetEntity=Apprenant::class, inversedBy="groupes", cascade={"persist"})
+<<<<<<< HEAD
      * @Groups({"brief_assigned","prom_ref_app_form","apprenant_id_promo:read","brief_of_promo","brief_of_one_promo"})
+=======
+     * @Groups({"prom_ref_app_form","apprenant_id_promo:read"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $apprenant;
 
@@ -84,7 +96,11 @@ class Groupe
 
     /**
      * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="groupe",cascade={"persist"})
+<<<<<<< HEAD
      * @Groups({"prom_ref_app_form","brief_of_promo"})
+=======
+     * @Groups({"prom_ref_app_form"})
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $promo;
 
@@ -129,6 +145,7 @@ class Groupe
     {
         if (!$this->apprenant->contains($apprenant)) {
             $this->apprenant[] = $apprenant;
+            $apprenant->addGroupe($this);
         }
 
         return $this;
@@ -138,6 +155,7 @@ class Groupe
     {
         if ($this->apprenant->contains($apprenant)) {
             $this->apprenant->removeElement($apprenant);
+            $apprenant->removeGroupe($this);
         }
 
         return $this;

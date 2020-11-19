@@ -24,6 +24,30 @@ showApprenantById:
     path: /api/apprenants/{id}
     controller: App\Controller\UserController::showApprenantById
     methods: ['GET','PUT']
+<<<<<<< HEAD
+=======
+
+
+
+getChatOfOneApprenantOfOnePromo:
+    path: /api/users/promo/{id1}/apprenant/{id2}/chats
+    methods: ['GET']
+    defaults:
+        _controller: App\Controller\ChatController::showChatOfOneApprenantOfOnPromo
+        _api_resource_class: App\Entity\Chat
+        _api_collection_operation_name: show_chat_by_groupe
+
+postChatOfOneApprenantOfOnePromo:
+    path: /api/users/promo/{id1}/apprenant/{id2}/chats
+    methods: ['POST']
+    defaults:
+        _controller: App\Controller\ChatController::creatChatOfOneApprenantOfOnPromo
+        _api_resource_class: App\Entity\Chat
+        _api_collection_operation_name: creat_chat_apprenant_promo
+
+
+
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 
 # config/routes.yaml
 authentication_token:

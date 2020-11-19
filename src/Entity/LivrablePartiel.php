@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
+<<<<<<< HEAD
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\LivrablePartielRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+=======
+use App\Repository\LivrablePartielRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 
 /**
  * @ORM\Entity(repositoryClass=LivrablePartielRepository::class)
@@ -18,43 +25,64 @@ class LivrablePartiel
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="datetime")
+<<<<<<< HEAD
      * @Groups({"brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $delai;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+<<<<<<< HEAD
      * @Groups({"brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $type;
 
     /**
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $nbreRendu;
 
     /**
      * @ORM\Column(type="integer")
+<<<<<<< HEAD
      * @Groups({"brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $nbreCorrige;
 

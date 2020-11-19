@@ -2,11 +2,18 @@
 
 namespace App\Entity;
 
+<<<<<<< HEAD
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BriefMaPromoRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+=======
+use App\Repository\BriefMaPromoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 
 /**
  * @ORM\Entity(repositoryClass=BriefMaPromoRepository::class)
@@ -27,13 +34,19 @@ class BriefMaPromo
 
     /**
      * @ORM\OneToMany(targetEntity=LivrablePartiel::class, mappedBy="briefmapromo")
+<<<<<<< HEAD
      * @Groups({"brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $livrablePartiels;
 
     /**
      * @ORM\ManyToOne(targetEntity=Promo::class, inversedBy="briefmapromo")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $promo;
 

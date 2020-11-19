@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
+<<<<<<< HEAD
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EtatBriefGroupeRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
+=======
+use App\Repository\EtatBriefGroupeRepository;
+use Doctrine\ORM\Mapping as ORM;
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
 
 /**
  * @ORM\Entity(repositoryClass=EtatBriefGroupeRepository::class)
@@ -30,7 +35,10 @@ class EtatBriefGroupe
 
     /**
      * @ORM\ManyToOne(targetEntity=Groupe::class, inversedBy="etatbriefgroupe")
+<<<<<<< HEAD
      * @Groups({"brief_assigned","brief_gpe_promo","brief_of_promo","brief_of_one_promo"})
+=======
+>>>>>>> 20c9996cae5c860e55ffc7778283aebfabad698d
      */
     private $groupe;
 
