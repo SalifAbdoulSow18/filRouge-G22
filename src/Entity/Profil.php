@@ -19,25 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "security"="is_granted('ROLE_ADMIN')",
  *          "security_message"="Vous n'avez pas access à cette Ressource"
  *      },
- *      collectionOperations={
- *          "get"={"path"="/admin/profils"},
- *          "get_profil_and_users"={
- *              "method"="GET",
- *              "path"="/admin/profils/users",
- *              "normalization_context"={"groups"={"profilusers:read"}}
- *          },
- *          "post"={"path"="/admin/profils"}
- *      },
- *      itemOperations={
- *          "get"={"path"="/admin/profils/{id}"},
- *          "users_of_one_profil"={
- *              "method"="GET",
- *              "path"="/admin/profils/{id}/users",
- *              "normalization_context"={"groups"={"profilusers:read"}}
- *          },
- *          "put"={"path"="/admin/profils/{id}"},
- *          "delete"={"path"="/admin/profils/{id}"}
- *      }
+ *   routePrefix=/admin,
+ *    
  *)
  */
 class Profil
